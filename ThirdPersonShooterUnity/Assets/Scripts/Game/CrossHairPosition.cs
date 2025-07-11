@@ -2,10 +2,10 @@ using UnityEngine;
 
 public class CrossHairPosition : MonoBehaviour
 {
-    Camera m_MainCamera;        //  Current main camera
+    private Camera m_MainCamera;    //  Current main camera
 
-    Ray m_Ray;                  //  Ray
-    RaycastHit m_HitInfo;       //  Information of the raycast hit
+    private Ray m_Ray;
+    private RaycastHit m_HitInfo;
 
     private void Start()
     {

@@ -2,11 +2,12 @@ using UnityEngine;
 
 public class EnemyDamage : MonoBehaviour
 {
-    public float damage = 30.0f;        //  Enemy Damage
+    [SerializeField]
+    private float damage = 30.0f;        //  Enemy Damage
 
-    Transform player;                   //  Position of the player
-    PlayerHealth playerHealth;          //  Health of the player
-    EnemyHealth enemyHealth;            //  Health of the enemy
+    private Transform player;                   //  Position of the player
+    private PlayerHealth playerHealth;          //  Health of the player
+    private EnemyHealth enemyHealth;            //  Health of the enemy
 
     private void Start()
     {
@@ -19,7 +20,7 @@ public class EnemyDamage : MonoBehaviour
 
     private void Update()
     {
-        if (!enemyHealth.isDeath)
+        if (!enemyHealth.IsDeath)
         {
             //  Check if the enemy is close to the player
             if (Vector3.Distance(transform.position, player.position) <= 0.6f)

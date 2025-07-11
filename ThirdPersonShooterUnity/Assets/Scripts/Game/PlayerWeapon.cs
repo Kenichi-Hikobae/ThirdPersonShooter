@@ -1,38 +1,36 @@
 using UnityEngine;
 
+public enum WeaponSlot      //  Identify every weapon
+{
+    AK = 0,
+    Pistol = 1,
+    Shotgun = 2
+}
+
 public class PlayerWeapon : MonoBehaviour
 {
-    public enum weaponSlot      //  Identify every weapon
-    {
-        AK = 0,
-        Pistol = 1,
-        Shotgun = 2
-    }
-    public FiringWeapon[] weapons;      //  Weapons
-
-    public AmmoInfo ammoUIInfo;         //  UI Ammo information
+    [SerializeField]
+    private FiringWeapon[] weapons;      //  Weapons
+    [SerializeField]
+    private AmmoInfo ammoUIInfo;         //  UI Ammo information
 
     //  State variables
-    [HideInInspector]
-    public bool isShooting;
-    [HideInInspector]
-    public bool isReloading;
-    [HideInInspector]
-    public bool isChanging;
-    [HideInInspector]
-    public bool canShoot;
+    public bool isShooting{ get; set; }
+    public bool isReloading{ get; set; }
+    public bool isChanging{ get; set; }
+    public bool canShoot { get; set; }
 
     //  Variables
-    PlayerAiming playerAiming;
-    Animator m_Animator;
-    bool m_IsAK;
-    bool m_IsPistol;
-    bool m_IsShotgun;
-    bool m_ActiveWeapon;
+    private PlayerAiming playerAiming;
+    private Animator m_Animator;
+    private bool m_IsAK;
+    private bool m_IsPistol;
+    private bool m_IsShotgun;
+    private bool m_ActiveWeapon;
 
-    int indexWeapon = 0;            //  Get the active weapon to use the different methods of the active weapon
+    private int indexWeapon = 0;            //  Get the active weapon to use the different methods of the active weapon
 
-    void Start()
+    private void Start()
     {
         //  Get components
         m_Animator = GetComponent<Animator>();
@@ -41,14 +39,14 @@ public class PlayerWeapon : MonoBehaviour
         ammoUIInfo.gameObject.SetActive(false);
     }
 
-    void Update()
+    private void Update()
     {
         ActiveWeapon();
         Shooting();
         ReloadWeapon();
     }
 
-    void Shooting()
+    private void Shooting()
     {
         if (Input.GetButton("Fire"))
         {
@@ -81,10 +79,10 @@ public class PlayerWeapon : MonoBehaviour
     public void AmmoInfo()
     {
         //  Update the ammo information
-        ammoUIInfo.AmmoUIUpdate(weapons[indexWeapon].weaponSlot.ToString(), weapons[indexWeapon].GetCurrentClip(), weapons[indexWeapon].GetCurrentAmmo());
+        ammoUIInfo.AmmoUIUpdate(weapons[indexWeapon].WeaponSlot.ToString(), weapons[indexWeapon].GetCurrentClip(), weapons[indexWeapon].GetCurrentAmmo());
     }
 
-    void ReloadWeapon()
+    private void ReloadWeapon()
     {
         if (Input.GetButtonDown("Reload"))
         {
@@ -104,7 +102,7 @@ public class PlayerWeapon : MonoBehaviour
         m_Animator.SetTrigger("IsReload");
     }
 
-    void ActiveWeapon()
+    private void ActiveWeapon()
     {
         //  Change the weapon and get the active (AK, pistol or shotgun in this case)
         if (Input.GetKeyDown(KeyCode.Alpha1))
@@ -131,7 +129,7 @@ public class PlayerWeapon : MonoBehaviour
         m_Animator.SetBool("Shotgun", m_IsShotgun);
     }
 
-    void ChangingWeapon(bool weaponA, bool weaponB)
+    private void ChangingWeapon(bool weaponA, bool weaponB)
     {
         //  Control when the player is changing a weapon to another
         if (weaponA || weaponB)
@@ -140,10 +138,10 @@ public class PlayerWeapon : MonoBehaviour
         }
     }
 
-    void WeaponEquipped(FiringWeapon weapon)
+    private void WeaponEquipped(FiringWeapon weapon)
     {
         //  For each weapon compare the weaponslot and identify which weapon is active
-        if (weapon.weaponSlot.Equals(weaponSlot.AK))
+        if (weapon.WeaponSlot.Equals(WeaponSlot.AK))
         {
             ChangingWeapon(m_IsPistol, m_IsShotgun);
             m_IsPistol = false;
@@ -164,7 +162,7 @@ public class PlayerWeapon : MonoBehaviour
                 ammoUIInfo.gameObject.SetActive(false);
             }
         }
-        else if (weapon.weaponSlot.Equals(weaponSlot.Pistol))
+        else if (weapon.WeaponSlot.Equals(WeaponSlot.Pistol))
         {
             ChangingWeapon(m_IsAK, m_IsShotgun);
             m_IsAK = false;
@@ -185,7 +183,7 @@ public class PlayerWeapon : MonoBehaviour
                 ammoUIInfo.gameObject.SetActive(false);
             }
         }
-        else if (weapon.weaponSlot.Equals(weaponSlot.Shotgun))
+        else if (weapon.WeaponSlot.Equals(WeaponSlot.Shotgun))
         {
             ChangingWeapon(m_IsAK, m_IsPistol);
             m_IsAK = false;

@@ -2,9 +2,10 @@ using UnityEngine;
 
 public class GameSettings : MonoBehaviour
 {
-    [HideInInspector]
-    public int enemies = 0;                     //  How many enemies will be in the scene
-    public GameObject enemy;                    //  Prefab of the enemy
+    public int enemies { get; set; }    //  How many enemies will be in the scene
+
+    [SerializeField]
+    private GameObject enemy;   //  Prefab of the enemy
 
     public static GameSettings instance = null; //  Instance of the object
 

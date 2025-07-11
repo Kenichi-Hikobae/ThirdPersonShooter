@@ -27,7 +27,7 @@ public class Menu : MonoBehaviour
     public void Update()
     {
         enemiesQuantity.text = quantity.value.ToString();
-        if (!player.playerDead)
+        if (!player.PlayerDead)
         {
             //  Pause and unpause the game
             if (Input.GetKeyDown(KeyCode.Escape))

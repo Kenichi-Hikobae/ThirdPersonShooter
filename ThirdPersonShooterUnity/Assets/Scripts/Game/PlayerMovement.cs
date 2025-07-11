@@ -3,42 +3,48 @@
 public class PlayerMovement : MonoBehaviour
 {
     [Header("Movement")]
-    public float playerSpeed = 7.0f;            //  Speed of the player movement
-    public float jumpForce = 10.0f;             //  Force of the player jumping
-    public float stepDown = 30.0f;              //  Force applied to the player when falling without jumping
-    public float pushPower = 2.0f;
+    [SerializeField]
+    private float playerSpeed = 7.0f;            //  Speed of the player movement
+    [SerializeField]
+    private float jumpForce = 10.0f;             //  Force of the player jumping
+    [SerializeField]
+    private float stepDown = 30.0f;              //  Force applied to the player when falling without jumping
+    [SerializeField]
+    private float pushPower = 2.0f;
+    [SerializeField]
     [Tooltip("Fall velocity when the player is on a slope")]
-    public float fallSlopeVelocity = 8f;      //  Slope fall velocity affected too by the gravity
+    private float fallSlopeVelocity = 8f;      //  Slope fall velocity affected too by the gravity
+    [SerializeField]
     [Tooltip("Force in the Y-axis when the player in on a slope")]
-    public float fallSlopeForce = 10.0f;        //  Force that affects in the fall of the player in the slopes
+    private float fallSlopeForce = 10.0f;        //  Force that affects in the fall of the player in the slopes
 
     //  Movement variables
-    Vector3 m_PlayerMovement;   //  Movement Vector
-    Vector3 m_Movement;         //  Input movement Vector
-    float m_Speed;              //  Speed of the player, this changes if the player run
-    float m_Gravity = 20.0f;    //  Gravity
-    float m_FallVelocity;       //  Variable that saves and applies gravity to the player
-    bool m_IsJump;              //  Control if the player has jumped
+    private Vector3 m_PlayerMovement;   //  Movement Vector
+    private Vector3 m_Movement;         //  Input movement Vector
+    private float m_Speed;              //  Speed of the player, this changes if the player run
+    private float m_Gravity = 20.0f;    //  Gravity
+    private float m_FallVelocity;       //  Variable that saves and applies gravity to the player
+    private bool m_IsJump;              //  Control if the player has jumped
     //  Slope variables
-    bool m_OnSlope = false;     //  If the player is on a slope
-    Vector3 m_HitNormal;        //  Get the normal of a plane
+    private bool m_OnSlope = false;     //  If the player is on a slope
+    private Vector3 m_HitNormal;        //  Get the normal of a plane
     //  Camera Variables
-    Vector3 m_CameraForward;    //  Vectors to control camera orientation
-    Vector3 m_CameraSideward;       
+    private Vector3 m_CameraForward;    //  Vectors to control camera orientation
+    private Vector3 m_CameraSideward;
 
-    float massRigibody;         //  Mass of the external objects moved by the player
+    private float massRigibody;         //  Mass of the external objects moved by the player
 
-    Animator m_Animator;            //  Animator component 
-    CharacterController controller; //  Character Controller componet
+    private Animator m_Animator;            //  Animator component 
+    private CharacterController controller; //  Character Controller componet
 
-    void Start()
+    private void Start()
     {
         m_Animator = GetComponent<Animator>();
         controller = GetComponent<CharacterController>();
         m_Speed = playerSpeed;
     }
 
-    void Update()
+    private void Update()
     {
         float horizontalMove = Input.GetAxis("Horizontal");                     //  Get the input axis (w,a,s,d)
         float verticalMove = Input.GetAxis("Vertical");
@@ -99,10 +105,10 @@ public class PlayerMovement : MonoBehaviour
         massRigibody = body.mass;
 
         // Apply the push
-        body.velocity = pushDir * pushPower / massRigibody;
+        body.linearVelocity = pushDir * pushPower / massRigibody;
     }
 
-    void Action()
+    private void Action()
     {
         /*
          *  Determine if the player is walking, running, etc
@@ -124,9 +130,9 @@ public class PlayerMovement : MonoBehaviour
             m_Animator.SetFloat("ForwardMove", m_Movement.z);
             m_Animator.SetFloat("SideMove", m_Movement.x);
         }
-    }    
+    }
 
-    void CameraDirection()
+    private void CameraDirection()
     {
         /*
          *  Get the camera orientation to make the player move with the camera orientation
@@ -142,7 +148,7 @@ public class PlayerMovement : MonoBehaviour
         m_CameraSideward = m_CameraSideward.normalized;
     }
 
-    void Gravity()
+    private void Gravity()
     {
         /*
          *  Gravity applies to the player
@@ -168,7 +174,7 @@ public class PlayerMovement : MonoBehaviour
         FallSlope();
     }
 
-    void Jump()
+    private void Jump()
     {
         /*
          *  When the player press the space bar the jump force is apply to the player
@@ -182,7 +188,7 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    void FallSlope()
+    private void FallSlope()
     {
         /*
          *  When the player is in a slope the player goes down,
@@ -208,6 +214,5 @@ public class PlayerMovement : MonoBehaviour
 
     private void OnAnimatorMove()
     {
-
     }
 }

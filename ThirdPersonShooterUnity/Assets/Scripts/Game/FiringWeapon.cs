@@ -1,40 +1,9 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class FiringWeapon : MonoBehaviour
 {
-    public PlayerWeapon.weaponSlot weaponSlot;  //  Slot weapon
-
-    public float fireRate = 10.0f;              //  How fast the wepon can fire
-    public float bulletSpeed = 1000.0f;         //  Bullet velocity
-    public float bulletDrop = 0.0f;             //  Fall force of the bullet
-    public float weaponDamage = 10.0f;          //  Damage of the wepon
-    public int ammo = 10;                       //  How many bullet in the magazine
-    public int maximumAmmo = 100;               //  Maximun ammo that the player has
-    public float bulletForce = 5.0f;            //  Force of the bullet hit
-    public Transform raycastOrigin;             //  Origin of the raycast -> the end of the canon of the weapon
-    public Transform raycastDestination;        //  Destination of the raycas -> the crosshair
-    public TrailRenderer bulletEffect;          //  Effect of the path of the bullet
-    public ParticleSystem muzzleEffect;         //  Shoot effect
-    public ParticleSystem bulletHitEffect;      //  Bullets hit effect
-
-    [HideInInspector]
-    public bool isFiring = false;
-
-    Ray m_Ray;                                  //  Raycast
-    RaycastHit m_HitInfo;                       //  Raycasts hit information
-    float m_AccumulatedTime = 1.0f;             //  Time to shoot again
-    List<Bullet> bullets = new List<Bullet>();  //  Bullets
-    float m_MaxBulletLifeTime = 3.0f;           //  Life of the bullet
-
-    //  Variables
-    RecoilWeapon recoil;
-    PlayerWeapon playerWeapon;
-    int m_ClipAmmo;
-    int m_CurrentAmmo;
-
-    class Bullet
+    private class Bullet
     {
         //  Class to store and get the bullet information
         public float time;
@@ -43,7 +12,51 @@ public class FiringWeapon : MonoBehaviour
         public TrailRenderer traicerBullet;
     }
 
-    Bullet CreateBullet(Vector3 position, Vector3 velocity)
+    [SerializeField]
+    private WeaponSlot weaponSlot;  //  Slot weapon
+
+    [SerializeField]
+    private float fireRate = 10.0f;              //  How fast the wepon can fire
+    [SerializeField]
+    private float bulletSpeed = 1000.0f;         //  Bullet velocity
+    [SerializeField]
+    private float bulletDrop = 0.0f;             //  Fall force of the bullet
+    [SerializeField]
+    private float weaponDamage = 10.0f;          //  Damage of the wepon
+    [SerializeField]
+    private int ammo = 10;                       //  How many bullet in the magazine
+    [SerializeField]
+    private int maximumAmmo = 100;               //  Maximun ammo that the player has
+    [SerializeField]
+    private float bulletForce = 5.0f;            //  Force of the bullet hit
+    [SerializeField]
+    private Transform raycastOrigin;             //  Origin of the raycast -> the end of the canon of the weapon
+    [SerializeField]
+    private Transform raycastDestination;        //  Destination of the raycas -> the crosshair
+    [SerializeField]
+    private TrailRenderer bulletEffect;          //  Effect of the path of the bullet
+    [SerializeField]
+    private ParticleSystem muzzleEffect;         //  Shoot effect
+    [SerializeField]
+    private ParticleSystem bulletHitEffect;      //  Bullets hit effect
+
+    public bool isFiring = false;
+    public float WeaponDamage => weaponDamage;
+    public WeaponSlot WeaponSlot => weaponSlot;
+
+    private Ray m_Ray;                                  //  Raycast
+    private RaycastHit m_HitInfo;                       //  Raycasts hit information
+    private float m_AccumulatedTime = 1.0f;             //  Time to shoot again
+    private List<Bullet> bullets = new List<Bullet>();  //  Bullets
+    private float m_MaxBulletLifeTime = 3.0f;           //  Life of the bullet
+
+    //  Variables
+    private RecoilWeapon recoil;
+    private PlayerWeapon playerWeapon;
+    private int m_ClipAmmo;
+    private int m_CurrentAmmo;
+
+    private Bullet CreateBullet(Vector3 position, Vector3 velocity)
     {
         //  Get a new bullet
         Bullet bullet = new Bullet();
@@ -116,7 +129,7 @@ public class FiringWeapon : MonoBehaviour
         DestroyBullet();
     }
 
-    void BulletSimulation()
+    private void BulletSimulation()
     {
         bullets.ForEach(bullet =>
         {
@@ -127,12 +140,12 @@ public class FiringWeapon : MonoBehaviour
         });
     }
 
-    void DestroyBullet()
+    private void DestroyBullet()
     {
         bullets.RemoveAll(bullet => bullet.time >= m_MaxBulletLifeTime);
     }
 
-    void RaycastBulletSegment(Vector3 origin, Vector3 end, Bullet bullet)
+    private void RaycastBulletSegment(Vector3 origin, Vector3 end, Bullet bullet)
     {
         m_Ray.origin = origin;
         m_Ray.direction = end - origin;
@@ -177,7 +190,7 @@ public class FiringWeapon : MonoBehaviour
         }
     }
 
-    Vector3 GetPositionBullet(Bullet bullet)
+    private Vector3 GetPositionBullet(Bullet bullet)
     {
         //  Get the position of the bullet with the following math function
         //  p * v * t + (g*t^2)/2

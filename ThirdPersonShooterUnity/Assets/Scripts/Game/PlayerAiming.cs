@@ -1,33 +1,57 @@
 using UnityEngine;
-using Cinemachine;
 using UnityEngine.Animations.Rigging;
+using Unity.Cinemachine;
 
 public class PlayerAiming : MonoBehaviour
 {
-    public float aimDuration = 0.4f;            //  How fast the player can aim
-    public float turnSpeed = 30;                //  How fast the player can rotate with the camera
+    [SerializeField]
+    private float aimDuration = 0.4f;            //  How fast the player can aim
+    [SerializeField]
+    private float turnSpeed = 30;                //  How fast the player can rotate with the camera
 
     //  Aim Rigs layer of each weapon (Animation rigging package)
-    public Rig AKAimLayer;
-    public Rig AKHandsLayer;
-    public Rig ShotgunAimLayer;
-    public Rig ShotgunHandsLayer;
-    public Rig PistolAimLayer;
-    public Rig PistolHandsLayer;
+    [SerializeField]
+    private Rig AKAimLayer;
+    [SerializeField]
+    private Rig AKHandsLayer;
+    [SerializeField]
+    private Rig ShotgunAimLayer;
+    [SerializeField]
+    private Rig ShotgunHandsLayer;
+    [SerializeField]
+    private Rig PistolAimLayer;
+    [SerializeField]
+    private Rig PistolHandsLayer;
 
-    public Transform cameraLookAt;              //  Where the camera will be looking at
-    public CinemachineVirtualCamera aimCamera;  //  Virtual camera to make some aiming effects
-    public AxisState xAxis;                     //  Get the x-axis movement of the input mouse movement
-    public AxisState yAxis;                     //  Get the y-axis movement of the input mouse movement
+    [SerializeField]
+    private Transform cameraLookAt;              //  Where the camera will be looking at
+    [SerializeField]
+    private CinemachineCamera aimCamera;  //  Virtual camera to make some aiming effects
+
+    [SerializeField]
+    private float xSensitivity = 300f;
+    [SerializeField]
+    private float ySensitivity = 200f;
+    [SerializeField]
+    private float minY = -80f;
+    [SerializeField]
+    private float maxY = 80f;
+
+    [HideInInspector]
+    public float xAxis;
+    [HideInInspector]
+    public float yAxis;
+    private float currentX = 0f;
+    private float currentY = 0f;
 
     [HideInInspector]
     public bool isAiming;           //  Control if the player is aiming
 
-    Camera m_MainCamera;            //  Current Main camera
-    Animator m_Animator;            //  Animator component
-    PlayerWeapon m_Weapon;          //  Player weapon component (this contol the interations of the player and the weapon)
-    float m_ShoulderOffset = 0;     //  Shoulder aim effect
-    bool cameraOffset;
+    private Camera m_MainCamera;            //  Current Main camera
+    private Animator m_Animator;            //  Animator component
+    private PlayerWeapon m_Weapon;          //  Player weapon component (this contol the interations of the player and the weapon)
+    private float m_ShoulderOffset = 0;     //  Shoulder aim effect
+    private bool cameraOffset;
 
     private void Start()
     {
@@ -39,11 +63,15 @@ public class PlayerAiming : MonoBehaviour
 
     private void FixedUpdate()
     {
-        //  Every grame get the mouse x and y input
-        xAxis.Update(Time.fixedDeltaTime);
-        yAxis.Update(Time.fixedDeltaTime);
+        xAxis = Input.GetAxis("Mouse X");
+        yAxis = Input.GetAxis("Mouse Y");
+
+        currentX += xAxis * xSensitivity * Time.fixedDeltaTime;
+        currentY -= yAxis * ySensitivity * Time.fixedDeltaTime;
+        currentY = Mathf.Clamp(currentY, minY, maxY);
+
         //  Rotates the camera with the input
-        cameraLookAt.eulerAngles = new Vector3(yAxis.Value, xAxis.Value, 0);
+        cameraLookAt.eulerAngles = new Vector3(currentY, currentX, 0);
 
         //  Get the y-axis of the camera and rotate the player
         float axisCamera = m_MainCamera.transform.eulerAngles.y;
@@ -98,7 +126,7 @@ public class PlayerAiming : MonoBehaviour
             {
                 m_ShoulderOffset += Time.deltaTime * 3;
                 //  Move the camera in the z-axis to get closer to the player view
-                aimCamera.GetComponent<CinemachineVirtualCamera>().GetCinemachineComponent<Cinemachine3rdPersonFollow>().ShoulderOffset.z = m_ShoulderOffset;
+                aimCamera.GetComponent<CinemachineThirdPersonFollow>().ShoulderOffset.z = m_ShoulderOffset;
             }
             else
             {
@@ -111,7 +139,7 @@ public class PlayerAiming : MonoBehaviour
             if (m_ShoulderOffset > 0)
             {
                 m_ShoulderOffset -= Time.deltaTime * 3;
-                aimCamera.GetComponent<CinemachineVirtualCamera>().GetCinemachineComponent<Cinemachine3rdPersonFollow>().ShoulderOffset.z = m_ShoulderOffset;
+                aimCamera.GetComponent<CinemachineThirdPersonFollow>().ShoulderOffset.z = m_ShoulderOffset;
             }
             else
             {

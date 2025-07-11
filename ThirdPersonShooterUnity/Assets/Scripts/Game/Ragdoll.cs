@@ -2,13 +2,15 @@ using UnityEngine;
 
 public class Ragdoll : MonoBehaviour
 {
-    public Transform hipsBone;          //  Get the Hips bone to be able to apply physics when the enemy is dead
-    public SkinnedMeshRenderer mannequin;
+    [SerializeField]
+    private Transform hipsBone;          //  Get the Hips bone to be able to apply physics when the enemy is dead
+    [SerializeField]
+    private SkinnedMeshRenderer mannequin;
 
-    Rigidbody[] m_Rigidbodies;          //  Get the all rigibodies of the bone hierachy (Ragdoll)
-    Animator m_Animator;                //  Animator component
-    
-    void Start()
+    private Rigidbody[] m_Rigidbodies;          //  Get the all rigibodies of the bone hierachy (Ragdoll)
+    private Animator m_Animator;                //  Animator component
+
+    private void Start()
     {
         m_Rigidbodies = GetComponentsInChildren<Rigidbody>();
         m_Animator = GetComponent<Animator>();

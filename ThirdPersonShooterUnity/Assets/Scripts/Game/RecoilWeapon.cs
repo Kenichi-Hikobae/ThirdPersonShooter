@@ -1,18 +1,23 @@
 using UnityEngine;
-using Cinemachine;
+using Unity.Cinemachine;
 
 public class RecoilWeapon : MonoBehaviour
 {
-    public CinemachineImpulseSource cameraShake;        //  Camera shake effect
+    [SerializeField]
+    private CinemachineImpulseSource cameraShake;       //  Camera shake effect
 
-    public PlayerAiming playerAimingCamera;             //  Player aim component  
-    public float verticalRecoil;                        //  How strong is the vertical
-    public float horizontalRecoil;                      //  How strong is the horizontal
-    public float recoilDuration;                        //  How fast the camera will move following the recoil
+    [SerializeField] 
+    private PlayerAiming playerAimingCamera;    //  Player aim component  
+    [SerializeField] 
+    private float verticalRecoil;   //  How strong is the vertical
+    [SerializeField] 
+    private float horizontalRecoil;     //  How strong is the horizontal
+    [SerializeField] 
+    private float recoilDuration;   //  How fast the camera will move following the recoil
 
     //  Variables
-    float time;
-    float horizontalRandom;
+    private float time;
+    private float horizontalRandom;
 
     private void Awake()
     {
@@ -21,13 +26,13 @@ public class RecoilWeapon : MonoBehaviour
             cameraShake = GetComponent<CinemachineImpulseSource>();
     }
 
-    void Update()
+    private void Update()
     {
         if (time > 0)
         {
             //  Add the values to the input axis camera
-            playerAimingCamera.yAxis.Value -= ((verticalRecoil / 10) * Time.deltaTime) / recoilDuration;
-            playerAimingCamera.xAxis.Value -= ((horizontalRandom / 10) * Time.deltaTime) / recoilDuration;
+            playerAimingCamera.yAxis -= ((verticalRecoil / 10) * Time.deltaTime) / recoilDuration;
+            playerAimingCamera.xAxis -= ((horizontalRandom / 10) * Time.deltaTime) / recoilDuration;
             time -= Time.deltaTime;
         }
     }

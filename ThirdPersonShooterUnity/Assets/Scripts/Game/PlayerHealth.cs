@@ -2,22 +2,26 @@ using UnityEngine;
 
 public class PlayerHealth : MonoBehaviour
 {
-    public float health = 100.0f;                   //  Maximum health of the player
-    public float timeDamageReset = 2.0f;
-    public float damageEffectIntesity = 5.0f;       //  Intensity of effect when the player damages the enemy
-    public float damageEffectDuration = 0.1f;       //  Duration of the effect
-    public HealthInfo healthInfo;                   //  UI information of the current health of the player
+    [SerializeField] 
+    private float health = 100.0f;      //  Maximum health of the player
+    [SerializeField] 
+    private float timeDamageReset = 2.0f;
+    [SerializeField] 
+    private float damageEffectIntesity = 5.0f;  //  Intensity of effect when the player damages the enemy
+    [SerializeField] 
+    private float damageEffectDuration = 0.1f;  //  Duration of the effect
+    [SerializeField] 
+    private HealthInfo healthInfo;  //  UI information of the current health of the player
 
-    [HideInInspector]
-    public bool playerDead;             //  Check if the player has dead
+    public bool PlayerDead { get; set; }    //  Check if the player has dead
 
     //  Variables
-    float m_CurrentHealth;
-    float m_AcumulateTime;
-    float m_DamageEffectTimer;
-    float intensity;
-    SkinnedMeshRenderer m_Mannequin;    //  Mesh of the object
-    Color m_Color;                      //  Default color of the object, it's required to make the damage effect
+    private float m_CurrentHealth;
+    private float m_AcumulateTime;
+    private float m_DamageEffectTimer;
+    private float intensity;
+    private SkinnedMeshRenderer m_Mannequin;    //  Mesh of the object
+    private Color m_Color;                      //  Default color of the object, it's required to make the damage effect
 
     private void Start()
     {
@@ -73,6 +77,6 @@ public class PlayerHealth : MonoBehaviour
     private void PlayerDies()
     {
         //  The player is dead :C
-        playerDead = true;
+        PlayerDead = true;
     }
 }

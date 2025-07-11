@@ -3,8 +3,10 @@ using UnityEngine.UI;
 
 public class AmmoInfo : MonoBehaviour
 {
-    public Text weaponText;             //  Active weapon
-    public Text ammoText;               //  Ammo quantity of thw active weapon
+    [SerializeField]
+    private Text weaponText;             //  Active weapon
+    [SerializeField] 
+    private Text ammoText;               //  Ammo quantity of thw active weapon
 
     public void AmmoUIUpdate(string weapon, int ammo, int currentAmmo)
     {

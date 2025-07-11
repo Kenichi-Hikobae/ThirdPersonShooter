@@ -3,24 +3,32 @@ using UnityEngine.AI;
 
 public class EnemyMovement : MonoBehaviour
 {
-    public float walkSpeed = 2.5f;              //  Speed when the enemy is patrol
-    public float runSpeed = 4.0f;               //  Speed when the enemy is chasing the player
-    public float radiusMovement = 25.0f;        //  Radius of the movement when is in the patrol state
-    public float waitTime = 3.0f;               //  Waiting time to the next movement
-    public float viewRadius = 20.0f;            //  How far the enemy detects the player
+    [SerializeField]
+    private float walkSpeed = 2.5f;      //  Speed when the enemy is patrol
+    [SerializeField]
+    private float runSpeed = 4.0f;   //  Speed when the enemy is chasing the player
+    [SerializeField]
+    private float radiusMovement = 25.0f;    //  Radius of the movement when is in the patrol state
+    [SerializeField]
+    private float waitTime = 3.0f;   //  Waiting time to the next movement
+    [SerializeField]
+    private float viewRadius = 20.0f;    //  How far the enemy detects the player
+    [SerializeField] 
     [Range(0, 360)]
-    public float viewAngle = 90;                //  View angle of the enemy
-    public LayerMask playerMask;                //  Player mask to detect the player by raycasting
-    public LayerMask obstacleMask;              //  Obstacule mask to detect the Obstacules by raycasting
+    private float viewAngle = 90;    //  View angle of the enemy
+    [SerializeField]
+    private LayerMask playerMask;    //  Player mask to detect the player by raycasting
+    [SerializeField]
+    private LayerMask obstacleMask;  //  Obstacule mask to detect the Obstacules by raycasting
 
     [HideInInspector]
     public bool playerInRange;                  //  Check if the player is in range
 
-    Transform player;                           //  Position of the player
-    NavMeshAgent navMeshAgent;                  //  Enemy Navmesh componet
-    Animator m_Animator;                        //  Enemy Animator component
-    EnemyHealth enemyHealth;                    //  Enemy health
-    float m_WaitTimer;
+    private Transform player;                           //  Position of the player
+    private NavMeshAgent navMeshAgent;                  //  Enemy Navmesh componet
+    private Animator m_Animator;                        //  Enemy Animator component
+    private EnemyHealth enemyHealth;                    //  Enemy health
+    private float m_WaitTimer;
 
     private void Start()
     {
@@ -42,7 +50,7 @@ public class EnemyMovement : MonoBehaviour
 
     private void Update()
     {
-        if (!enemyHealth.isDeath)
+        if (!enemyHealth.IsDeath)
         {
             //  Check if the player is in range
             EnviromentView();

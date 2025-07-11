@@ -2,24 +2,28 @@ using UnityEngine;
 
 public class EnemyHealth : MonoBehaviour
 {
-    public float health = 100.0f;                   //  Maximum health
-    public float armor = 0f;                        //  Armor if the enemy is more dificult to kill
-    public float damageEffectIntesity = 5.0f;       //  Intensity of effect when the player damages the enemy
-    public float damageEffectDuration = 0.1f;       //  Duration of the effect
-    public float forceDie = 5.0f;                   //  Force applies to the ragdoll when the enemy is dead
+    [SerializeField]
+    private float health = 100.0f;                   //  Maximum health
+    [SerializeField]
+    private float armor = 0f;                        //  Armor if the enemy is more dificult to kill
+    [SerializeField]
+    private float damageEffectIntesity = 5.0f;       //  Intensity of effect when the player damages the enemy
+    [SerializeField]
+    private float damageEffectDuration = 0.1f;       //  Duration of the effect
+    [SerializeField]
+    private float forceDie = 5.0f;                   //  Force applies to the ragdoll when the enemy is dead
 
-    [HideInInspector]
-    public bool isDeath = false;    //  Control if the enemy is dead
+    public bool IsDeath { get; set; }    //  Control if the enemy is dead
 
-    Ragdoll m_Ragdoll;              //  Ragdoll component
-    float currentHealth;            //  Current health of the enemy
+    private Ragdoll m_Ragdoll;              //  Ragdoll component
+    private float currentHealth;            //  Current health of the enemy
 
-    float m_DamageEffectTimer;
-    float intensity;
-    SkinnedMeshRenderer m_Mannequin;    //  Mesh of the object
-    Color m_Color;                      //  Default color of the object, it's required to make the damage effect
+    private float m_DamageEffectTimer;
+    private float intensity;
+    private SkinnedMeshRenderer m_Mannequin;    //  Mesh of the object
+    private Color m_Color;                      //  Default color of the object, it's required to make the damage effect
 
-    EnemyMovement m_EnemyMovement;      //  Movement  component of the enemy
+    private EnemyMovement m_EnemyMovement;      //  Movement  component of the enemy
 
     private void Start()
     {
@@ -74,10 +78,10 @@ public class EnemyHealth : MonoBehaviour
             m_EnemyMovement.playerInRange = true;
     }
 
-    void Death(Vector3 forceDirection)
+    private void Death(Vector3 forceDirection)
     {
         //  Go to ragdoll state when the enemy dies
-        isDeath = true;
+        IsDeath = true;
         m_Ragdoll.ActivateRagdoll();
         forceDirection.y = 1;
         m_Ragdoll.ApplyForce(forceDirection * forceDie);
