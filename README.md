@@ -12,6 +12,8 @@ Enemies behave as if they were zombies, at the beginning of the scene if they ha
 
 When an enemy dies the ragdoll physics are activated, and the player can shoot at them to move them. I hope it was clear, if you have any questions about the project you can contact me to know more about it.
 
+Demo: https://youtu.be/0MomydSKhEU
+
 <img width="1592" height="889" alt="image" src="https://github.com/user-attachments/assets/6817c342-eb60-4112-82ff-78c2bcbb9a15" />
 <img width="1592" height="889" alt="image" src="https://github.com/user-attachments/assets/9faac211-2597-48d9-8fc7-ec2931c7244b" />
 <img width="1593" height="885" alt="image" src="https://github.com/user-attachments/assets/fe7946ac-42c6-4ae4-8fb3-a1253bd828e1" />
